@@ -1,5 +1,13 @@
 # Investment Strategies — Quantitative Research Project
 
+![NAV Performance](images/nav_performance.png)
+**Figure 1.** Net Asset Value (NAV) comparison between strategies.
+![Performance Summary](images/performance_summary.png)
+**Figure 2.** Performance summary by key metrics.
+![Data Universe](images/data_universe.png)
+**Figure 3.** Data universe sample (ETFs, stocks, bonds, commodities).
+
+
 ## Overview
 This project presents a comprehensive **quantitative research study** comparing multiple portfolio allocation and trading strategies using **Python, SQL, and financial time series analysis**.
 

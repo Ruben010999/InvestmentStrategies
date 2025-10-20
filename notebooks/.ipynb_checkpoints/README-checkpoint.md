@@ -1,84 +1,109 @@
 # Investment Strategies — Quantitative Research Project
 
-## Overview
-This project presents a comprehensive quantitative analysis of several investment strategies using Python, SQL, and financial time series data.  
-The objective is to evaluate how different portfolio allocation methods perform across various market conditions, focusing on **return consistency, volatility control, and drawdown resilience**.
+![NAV Performance](images/nav_performance.png)
+**Figure 1.** Net Asset Value (NAV) comparison between strategies.
+![Performance Summary](images/performance_summary.png)
+**Figure 2.** Performance summary by key metrics.
+![Data Universe](images/data_universe.png)
+**Figure 3.** Data universe sample (ETFs, stocks, bonds, commodities).
 
-The project is structured as a multi-notebook research pipeline, progressing from data ingestion to portfolio construction and final comparative evaluation.
+
+## Overview
+This project presents a comprehensive **quantitative research study** comparing multiple portfolio allocation and trading strategies using **Python, SQL, and financial time series analysis**.
+
+The objective is to evaluate how different portfolio construction methods perform under varying market conditions, focusing on:
+
+- **Return consistency**
+- **Volatility control**
+- **Drawdown resilience**
+- **Risk-adjusted performance**
+
+The project is implemented as a **multi-notebook research pipeline**, moving from data ingestion to portfolio construction and final comparative evaluation.
 
 ---
 
 ## Project Structure
+
 | Notebook | Description |
-|-----------|--------------|
-| **01_database_ingestion.ipynb** | Builds the local SQLite database, downloads/caches price data for ETFs, stocks, bonds, and commodities. |
-| **02_buy_and_hold.ipynb** | Implements a baseline **Equal-Weighted Buy & Hold** strategy. |
-| **03_momentum.ipynb** | Tests **12-Month Momentum** (12M-1) with and without volatility targeting. |
-| **04_volatility_targeting.ipynb** | Introduces dynamic risk control through **volatility targeting** mechanisms. |
-| **05_portfolio_combination.ipynb** | Combines strategies using **Risk Parity** and **Equal-Weight Aggregation**, evaluates performance across time windows. |
+|-----------|-------------|
+| **01_database_ingestion.ipynb** | Builds the local SQLite database and downloads/caches price data for ETFs, stocks, bonds, and commodities. |
+| **02_buy_and_hold.ipynb** | Implements a baseline **Equal-Weighted Buy & Hold** strategy as a passive benchmark. |
+| **03_momentum.ipynb** | Tests **12-Month Momentum (12M-1)** with and without volatility targeting adjustments. |
+| **04_volatility_targeting.ipynb** | Introduces dynamic risk control through **volatility targeting** mechanisms and sensitivity analysis. |
+| **05_portfolio_combination.ipynb** | Combines strategies using **Risk Parity** and **Equal-Weight Aggregation**, evaluating performance across time and asset classes. |
+| **06_mean_reversion.ipynb** | Explores a **Mean Reversion** approach based on z-score signals and compares it to trend-following models. |
+| **07_final_conclusion.ipynb** | Provides the final synthesis, identifying the most balanced and resilient strategies for long-term and short-term investment horizons. |
 
 ---
 
 ## Data Universe
-The universe includes diversified asset classes to capture both equity growth and defensive characteristics:
 
-- **ETFs:** `VTI`, `SPY`, `QQQ`, `ARKK`
-- **Stocks:** `AAPL`, `MSFT`, `AMZN`, `GOOGL`, `META`, `NVDA`
-- **Diversifiers:** `AGG`, `TLT`, `IEF`, `BIL`, `GLD`, `DBC`, `VNQ`, `EFA`, `EEM`, `XLE`, `XLV`
+The study uses a **diversified asset universe** to represent both equity growth and defensive diversification components.
+
+- **ETFs:** `VTI`, `SPY`, `QQQ`, `ARKK`  
+- **Stocks:** `AAPL`, `MSFT`, `AMZN`, `GOOGL`, `META`, `TSLA`, `NVDA`  
+- **Diversifiers:** `AGG`, `TLT`, `IEF`, `BIL`, `GLD`, `DBC`, `VNQ`, `EFA`, `EEM`, `XLE`, `XLV`  
 - **Benchmark:** `^GSPC` (S&P 500)
 
-Period: **2015-01-01 → 2025-01-01**
+**Period:** `2015-01-01 – 2025-01-01`  
+**Data Source:** Yahoo Finance API (via `yfinance`)
 
 ---
 
-## Methodology
-Each notebook builds upon a consistent framework:
-1. **Data ingestion and cleaning** from Yahoo Finance into a normalized SQL database.  
-2. **Return computation** and **portfolio weighting** via Pandas and NumPy.  
-3. **Performance metrics:**  
-   - CAGR (Compound Annual Growth Rate)  
-   - Annualized Volatility  
-   - Sharpe Ratio (risk-adjusted return)  
-   - Max Drawdown  
+## Methodology Highlights
 
-All strategies include transaction costs and rebalancing frequency control.
+1. **Data Engineering:**  
+   - Automated data ingestion and caching using SQLite.  
+   - Daily adjusted close prices, merged and cleaned for analysis.
 
----
+2. **Backtesting Framework:**  
+   - Daily rebalancing, transaction cost modeling, and volatility normalization.  
+   - Unified functions for portfolio returns, Sharpe ratio, CAGR, volatility, and max drawdown.
 
-## Results Summary
-| Strategy | Sharpe | CAGR (%) | Volatility (%) | Max Drawdown (%) | Key Feature |
-|-----------|--------|-----------|----------------|------------------|--------------|
-| **Buy & Hold (EW)** | 0.97 | 12.1 | 12.7 | −22.7 | Stable baseline |
-| **Momentum 12M-1** | 0.85 | 11.4 | 13.8 | −22.9 | Trend-following bias |
-| **Mean Reversion** | 0.28 | 3.2 | 15.9 | −37.2 | Weak in trending markets |
-| **Risk Parity** | 0.98 | 15.0 | 15.4 | −22.7 | Most balanced risk allocation |
+3. **Strategies Tested:**  
+   - **Equal-Weighted Buy & Hold** — Baseline benchmark.  
+   - **12-Month Momentum (12M-1)** — Cross-sectional and time-series momentum variants.  
+   - **Volatility Targeting** — Adaptive exposure scaling to maintain stable realized volatility.  
+   - **Risk Parity** — Equal risk contribution portfolio combining equities, bonds, and commodities.  
+   - **Mean Reversion** — Short-term contrarian strategy based on z-score of price deviations.
 
----
-
-## Key Insights
-- **Volatility targeting** enhances stability and Sharpe ratio without major loss of CAGR.  
-- **Risk Parity** performs best in multi-asset universes with low correlation — acting as a volatility smoother.  
-- **Momentum** thrives during trending markets (e.g., 2017–2021).  
-- **Mean Reversion** underperforms in long bull markets but may complement other strategies in mean-reverting environments.  
-- **Equal-Weight aggregation** across strategies further stabilizes results.
+4. **Evaluation Metrics:**  
+   - Annualized return (CAGR)  
+   - Volatility  
+   - Sharpe ratio  
+   - Maximum drawdown  
+   - Sensitivity analysis across volatility targets and estimation windows.
 
 ---
 
-## Conclusion
-This research demonstrates a practical framework for quantitative portfolio construction and evaluation.  
-It highlights that the **most resilient portfolios are not the highest-return ones**, but those maintaining **balanced exposure, controlled volatility, and crisis resilience**.  
-The project establishes a foundation for future extensions, such as **machine-learning-based allocation models** or **macro-regime adaptive strategies**.
+## Key Findings
+
+- **Buy & Hold** and **12M-1 Momentum** achieved the highest long-term returns but carried similar volatility and drawdowns (~-30%).  
+- **Volatility Targeting** improved risk-adjusted performance, reducing drawdowns by half while maintaining strong CAGR.  
+- **Risk Parity** delivered smoother equity curves and lower volatility, particularly when applied to a **diversified universe** of low-correlated assets.  
+- **Mean Reversion** underperformed in the predominantly trending 2015-2025 environment, as expected, but remains valuable for range-bound markets.  
+- The **most balanced profiles** were achieved by combining **12M-1 Momentum (vol-targeted)** with **Risk Parity**, maintaining ≈ 12 % volatility and limited drawdown (≈ -16 %) while preserving long-term compounding efficiency.
 
 ---
 
 ## Technologies Used
-- Python (Pandas, NumPy, Matplotlib)
-- SQLite + SQLAlchemy
-- Jupyter Notebook
-- Yahoo Finance API
+- **Python**: data analysis and modeling  
+- **NumPy / Pandas**: numerical computation and time series processing  
+- **Matplotlib / Seaborn**: performance visualization  
+- **SQLite / SQLAlchemy**: data storage and retrieval  
+- **JupyterLab**: research workflow and documentation environment
 
 ---
 
 ## Author
-Developed by **Ruben Kostanyan** — Physics graduate and aspiring Data Scientist focusing on AI-driven quantitative finance.
+**Ruben Kostanyan**  
+Independent Quantitative Researcher & Data Analyst  
+Project developed as part of a self-directed learning program in **Python-based Quantitative Finance**.
 
+---
+
+## License
+This project is released for **educational and research purposes**.  
+All market data are sourced from public APIs under fair use.
+
+---
